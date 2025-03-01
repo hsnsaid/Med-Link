@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('gender')->enum('male','female');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('phone_number');
             $table->string('speciality')->enum('genralist','dentist','Cardiologist','Neurologist','Orthopedic','Dermatologist','Gynecologist');
             $table->string('formations');
