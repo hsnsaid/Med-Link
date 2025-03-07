@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class StoreUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,10 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','string'],
-            'email'=>['required','email','unique:users,email'],
-            'password'=>['required','confirmed','string',Password::min(6)->numbers()],
-            'phoneNumber'=>['required','string'],
+            'name'=>['string'],
+            'email'=>['email'],
+            'password'=>['required','string','confirmed',Password::min(6)->numbers()],
+            'phoneNumber'=>['string'],
         ];
-    }
-    protected function prepareForValidation()
-    {
-        $this->merge(['phone_number'=>$this->phoneNumber]);
     }
 }

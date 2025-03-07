@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\V1\UserCollection;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -29,9 +31,10 @@ class UserController extends Controller
         $user=User::create([
             'name'=>$request['name'],
             'email'=>$request['email'],
-            'password'=>Hash::make($request->input('password')),
+            'password'=>Hash::make($request['password']),
             'phone_number'=>$request['phoneNumber'],
         ]);
+        $user->tokens()->delete();
         $token=$user->createToken('user')->plainTextToken;
         $response=[
             'user'=>$user,
@@ -44,18 +47,25 @@ class UserController extends Controller
             'email'=>['required','email'],
             'password'=>['required','string'],
         ]);
-        $user=User::where('email',$feilds['email'])->first();
-        if(!$user || !Hash::check($feilds['password'],$user->password)){
-            return Response(['message'=>'Invalid credentials'], 401);
-        }
-        $token=$user->createToken('user')->plainTextToken;
-        $response=[
-            'user'=>$user,
-            'token'=>$token
-        ];
-        return Response($response,201);    
+        if (!Auth::attempt(['email' => $feilds['email'], 'password' => $feilds['password']])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials'
+            ], 401);
+        }    
+        $user = Auth::user();
+        $user->tokens()->delete();    
+        $token = $user->createToken('user')->plainTextToken;
+    
+        return response()->json([
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email
+            ],
+            'token' => $token
+        ], 200);
     }
-
     /**
      * Display the specified resource.
      */
@@ -63,13 +73,17 @@ class UserController extends Controller
     {
         return new UserResource($user);
     }
-
+    public function showAuthenticatedUser(Request $request)
+    {
+        return new UserResource($request->user());
+    }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        return 'yeah';
+        // $user->update(['name]);
     }
 
     /**
