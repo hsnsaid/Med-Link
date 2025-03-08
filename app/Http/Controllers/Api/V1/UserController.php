@@ -37,7 +37,7 @@ class UserController extends Controller
         $user->tokens()->delete();
         $token=$user->createToken('user')->plainTextToken;
         $response=[
-            'user'=>$user,
+            'user'=>new UserResource($user),
             'token'=>$token
         ];
         return Response($response,201);
@@ -54,15 +54,10 @@ class UserController extends Controller
             ], 401);
         }    
         $user = Auth::user();
-        $user->tokens()->delete();    
         $token = $user->createToken('user')->plainTextToken;
     
         return response()->json([
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email
-            ],
+            'user' => new UserResource($user),
             'token' => $token
         ], 200);
     }
@@ -82,8 +77,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        return 'yeah';
-        // $user->update(['name]);
+        $data = $request->validated();
+        $user->fill($data)->save();
+        return new UserResource($user);
     }
 
     /**

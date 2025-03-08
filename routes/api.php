@@ -14,6 +14,6 @@ Route::group(['prefix'=>'v1'],function(){
     Route::apiResource('appointments',AppointmentController::class);
     Route::apiResource('users',UserController::class);
     Route::post('users/login',[UserController::class,'check']);
-    Route::post('users/profile',[UserController::class,'showAuthenticatedUser']);
+    Route::middleware('auth:sanctum')->post('users/profile',[UserController::class,'showAuthenticatedUser']);
     Route::middleware('auth:sanctum')->post('/users/logout', [UserController::class, 'logout']);
 });
