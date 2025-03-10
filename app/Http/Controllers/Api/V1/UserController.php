@@ -79,8 +79,11 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
-        $user->fill($data)->save();
-        return new UserResource($user);
+        if(Hash::check($data['password'],$user->password)){
+            $user->fill($data)->save();
+            return new UserResource($user);
+        }
+        return response("Password is incorrect");
     }
     public function updatePassword(Request $request, User $user){
         $data = $request->validate([

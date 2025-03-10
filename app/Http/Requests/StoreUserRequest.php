@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
             'name'=>['required','string'],
             'email'=>['required','email','unique:users,email'],
             'password'=>['required','confirmed','string',Password::min(6)->numbers()],
-            'phoneNumber'=>['required','string'],
+            'phone_number'=>['required','string'],
         ];
     }
     protected function prepareForValidation()
