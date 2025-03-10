@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -80,6 +81,17 @@ class UserController extends Controller
         $data = $request->validated();
         $user->fill($data)->save();
         return new UserResource($user);
+    }
+    public function updatePassword(Request $request, User $user){
+        $data = $request->validate([
+            'old_password'=>['required'],
+            'password'=>['required','confirmed',Password::min(6)->numbers()]
+        ]);
+        if(Hash::check($data['old_password'],$user->password)){
+            $user->update(['password'=>$data['password']]);
+            return new UserResource($user);
+        }
+        return response("Password is incorrect");
     }
 
     /**

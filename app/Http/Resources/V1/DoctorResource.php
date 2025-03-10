@@ -17,7 +17,7 @@ class DoctorResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'email'=>$this->id,
+            'email'=>$this->email,
             'gender'=>$this->gender,
             'password'=>$this->password,
             'phoneNumber'=>$this->phone_number,
@@ -25,7 +25,7 @@ class DoctorResource extends JsonResource
             'formations'=>$this->formations,
             'typeConsultation'=>$this->type_consultation,
             'city'=>$this->city,
-            'street'=>$this->qtreet,
+            'street'=>$this->street,
             'localisation'=>$this->localisation,
             'rating'=>$this->rating,
             'approved'=>$this->approved,            
