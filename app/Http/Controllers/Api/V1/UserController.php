@@ -78,23 +78,31 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $update=false;        
         $data = $request->validated();
         if(Hash::check($data['password'],$user->password)){
             $user->fill($data)->save();
-            return new UserResource($user);
+            $update=true;
         }
-        return response("Password is incorrect");
+        return response()->json([
+            'user'=>new UserResource($user),
+            'update'=>$update
+        ]);
     }
     public function updatePassword(Request $request, User $user){
+        $update=false;        
         $data = $request->validate([
             'old_password'=>['required'],
             'password'=>['required','confirmed',Password::min(6)->numbers()]
         ]);
         if(Hash::check($data['old_password'],$user->password)){
             $user->update(['password'=>$data['password']]);
-            return new UserResource($user);
+            $update=true;
         }
-        return response("Password is incorrect");
+        return response()->json([
+            'user'=>new UserResource($user),
+            'update'=>$update
+        ]);
     }
 
     /**
