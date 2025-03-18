@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('street');
             $table->string('localisation');
             $table->decimal('rating',2,1)->default(0);
+            $table->string('picture')->nullable();
             $table->boolean('approved')->default(false);
             $table->timestamps();
         });

@@ -30,6 +30,7 @@ class DoctorFactory extends Factory
             'localisation'=>fake()->realText(11),
             'rating'=>fake()->randomFloat(1,0,5),
             'approved'=>fake()->boolean(),
+            'picture'=>NULL
         ];
     }
 }

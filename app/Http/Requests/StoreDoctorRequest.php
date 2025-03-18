@@ -11,7 +11,7 @@ class StoreDoctorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class StoreDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>['required','string'],
+            'gender'=>['string'],
+            'email'=>['required','email'],
+            'password'=>['required','string','confirmed'],
+            'phone_number'=>['string'],
+            'speciality'=>['string'],
+            'formations'=>['string'],
+            'type_consultation'=>['string'],
+            'city'=>['string'],
+            'street'=>['string'],
+            'localisation'=>['string'],
+            'picture'=>['image']        
         ];
     }
 }

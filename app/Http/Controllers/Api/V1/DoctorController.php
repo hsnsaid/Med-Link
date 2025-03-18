@@ -21,7 +21,12 @@ class DoctorController extends Controller
         $filter=new DoctorsFilter();
         $filterItems=$filter->transform($request);
         $doctors=Doctor::where($filterItems);
-        return new DoctorCollection($doctors->paginate()->appends($request->query()));
+        $doctors = $doctors->paginate()->appends($request->query());
+        $doctors->getCollection()->transform(function ($doctor) {
+            $doctor->picture = $doctor->picture ? asset("storage/" . $doctor->picture) : null;
+            return $doctor;
+        });    
+        return new DoctorCollection($doctors);
     }
 
     /**
@@ -29,7 +34,16 @@ class DoctorController extends Controller
      */
     public function store(StoreDoctorRequest $request)
     {
-        //
+        $data=$request->validated();
+        $data['picture']=$request->file('picture')->store(options:'public');
+        $doctor=Doctor::create($data);
+        // $doctor->tokens()->delete();
+        // $token=$doctor->createToken('doctor')->plainTextToken;
+        $response=[
+            'doctor'=>new DoctorResource($doctor),
+            // 'token'=>$token
+        ];
+        return Response($response,201);
     }
 
     /**
@@ -37,6 +51,7 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
+        $doctor['picture']=asset("storage/$doctor->picture");
         return new DoctorResource($doctor);
     }
     /**

@@ -29,6 +29,7 @@ class DoctorResource extends JsonResource
             'localisation'=>$this->localisation,
             'rating'=>$this->rating,
             'approved'=>$this->approved,            
+            'picture'=>$this->picture
         ];
     }
 }
