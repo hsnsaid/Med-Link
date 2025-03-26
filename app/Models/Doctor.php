@@ -14,4 +14,11 @@ class Doctor extends Model
         'approved',
         'rating'
     ];
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
+
 }

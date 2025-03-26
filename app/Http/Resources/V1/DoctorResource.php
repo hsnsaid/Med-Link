@@ -26,7 +26,6 @@ class DoctorResource extends JsonResource
             'typeConsultation'=>$this->type_consultation,
             'city'=>$this->city,
             'street'=>$this->street,
-            'localisation'=>$this->localisation,
             'rating'=>$this->rating,
             'approved'=>$this->approved,            
             'picture'=>$this->picture

@@ -44,11 +44,11 @@ class UserController extends Controller
         return Response($response,201);
     }
     public function check(Request $request){
-        $feilds=$request->validate([
+        $fields=$request->validate([
             'email'=>['required','email'],
             'password'=>['required','string'],
         ]);
-        if (!Auth::attempt(['email' => $feilds['email'], 'password' => $feilds['password']])) {
+        if (!Auth::attempt(['email' => $fields['email'], 'password' => $fields['password']])) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid credentials'

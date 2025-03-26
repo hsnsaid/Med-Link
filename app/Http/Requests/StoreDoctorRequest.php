@@ -23,17 +23,21 @@ class StoreDoctorRequest extends FormRequest
     {
         return [
             'name'=>['required','string'],
-            'gender'=>['string'],
-            'email'=>['required','email'],
+            'email'=>['required','email','unique:doctors,email'],
             'password'=>['required','string','confirmed'],
+            'gender'=>['string'],
             'phone_number'=>['string'],
             'speciality'=>['string'],
-            'formations'=>['string'],
             'type_consultation'=>['string'],
             'city'=>['string'],
             'street'=>['string'],
-            'localisation'=>['string'],
             'picture'=>['image']        
         ];
     }
+    protected function prepareForValidation()
+    {
+        $this->merge(['phone_number'=>$this->phoneNumber]);
+        $this->merge(['type_consultation'=>$this->typeConsultation]);
+    }
+
 }

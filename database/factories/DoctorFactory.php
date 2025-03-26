@@ -23,11 +23,9 @@ class DoctorFactory extends Factory
             'password'=>fake()->password(),
             'phone_number'=>fake()->phoneNumber(),
             'speciality'=>fake()->randomElement(['genralist','dentist','Cardiologist','Neurologist','Orthopedic','Dermatologist','Gynecologist']),
-            'formations'=>fake()->realText(12),
             'type_consultation'=>fake()->randomElement(['none','text','video','all']),
             'city'=>fake()->city(),
             'street'=>fake()->realText(11),
-            'localisation'=>fake()->realText(11),
             'rating'=>fake()->randomFloat(1,0,5),
             'approved'=>fake()->boolean(),
             'picture'=>NULL

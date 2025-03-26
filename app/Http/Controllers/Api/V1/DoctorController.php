@@ -10,6 +10,8 @@ use App\Http\Resources\V1\DoctorCollection;
 use App\Http\Resources\V1\DoctorResource;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -35,17 +37,35 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request)
     {
         $data=$request->validated();
-        $data['picture']=$request->file('picture')->store(options:'public');
+        if ($request->hasFile('picture')) {
+            $data['picture']=$request->file('picture')->store('public');
+        }
         $doctor=Doctor::create($data);
-        // $doctor->tokens()->delete();
-        // $token=$doctor->createToken('doctor')->plainTextToken;
+        $token=$doctor->createToken('doctor')->plainTextToken;
         $response=[
             'doctor'=>new DoctorResource($doctor),
-            // 'token'=>$token
+            'token'=>$token
         ];
         return Response($response,201);
     }
-
+    public function check(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string']
+        ]);    
+        $doctor = Doctor::where('email', $fields['email'])->first();    
+        if (!$doctor || !Hash::check($fields['password'], $doctor->password)) {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+        $token = $doctor->createToken('doctor')->plainTextToken;    
+        return response()->json([
+            'doctor' => new DoctorResource($doctor),
+            'token' => $token
+        ], 201);
+    }    
     /**
      * Display the specified resource.
      */
@@ -53,6 +73,10 @@ class DoctorController extends Controller
     {
         $doctor['picture']=asset("storage/$doctor->picture");
         return new DoctorResource($doctor);
+    }
+    public function showAuthenticatedDoctor(Request $request)
+    {
+        return new DoctorResource($request->user());
     }
     /**
      * Update the specified resource in storage.
@@ -68,5 +92,14 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         //
+    }
+    public function logout(Request $request)
+    {
+        $doctor = $request->user(); 
+        if (!$doctor) {
+            return response(['error' => 'User not authenticated'], 401);
+        }
+        $doctor->tokens()->delete();
+        return response(['message' => 'Logged out successfully'], 200);
     }
 }
