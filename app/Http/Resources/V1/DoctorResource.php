@@ -22,7 +22,6 @@ class DoctorResource extends JsonResource
             'password'=>$this->password,
             'phoneNumber'=>$this->phone_number,
             'speciality'=>$this->speciality,
-            'formations'=>$this->formations,
             'typeConsultation'=>$this->type_consultation,
             'city'=>$this->city,
             'street'=>$this->street,

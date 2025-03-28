@@ -38,7 +38,7 @@ class DoctorController extends Controller
     {
         $data=$request->validated();
         if ($request->hasFile('picture')) {
-            $data['picture']=$request->file('picture')->store('public');
+            $data['picture']=$request->file('picture')->store(options:'public');
         }
         $doctor=Doctor::create($data);
         $token=$doctor->createToken('doctor')->plainTextToken;
@@ -61,6 +61,7 @@ class DoctorController extends Controller
             ], 401);
         }
         $token = $doctor->createToken('doctor')->plainTextToken;    
+        $doctor->picture = $doctor->picture ? asset("storage/" . $doctor->picture) : null;
         return response()->json([
             'doctor' => new DoctorResource($doctor),
             'token' => $token
@@ -71,12 +72,14 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        $doctor['picture']=asset("storage/$doctor->picture");
+        $doctor->picture = $doctor->picture ? asset("storage/" . $doctor->picture) : null;
         return new DoctorResource($doctor);
     }
     public function showAuthenticatedDoctor(Request $request)
     {
-        return new DoctorResource($request->user());
+        $doctor=$request->user();
+        $doctor->picture = $doctor->picture ? asset("storage/" . $doctor->picture) : null;
+        return new DoctorResource($doctor);
     }
     /**
      * Update the specified resource in storage.
