@@ -14,6 +14,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::apiResource('doctors',DoctorController::class);
     Route::middleware('auth:sanctum')->post('doctors/profile',[DoctorController::class,'showAuthenticatedDoctor']);
     Route::middleware('auth:sanctum')->post('doctors/logout', [DoctorController::class, 'logout']);
+    Route::patch('doctors/update/password/{doctor}',[DoctorController::class,'updatePassword']);
 
     Route::post('users/login',[UserController::class,'check']);
     Route::apiResource('users',UserController::class);

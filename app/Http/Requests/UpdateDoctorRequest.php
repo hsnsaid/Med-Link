@@ -22,7 +22,16 @@ class UpdateDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>['string'],
+            'email'=>['email','unique:doctors,email'],
+            'password'=>['required','string'],
+            'gender'=>['string'],
+            'phone_number'=>['string'],
+            'speciality'=>['string'],
+            'type_consultation'=>['string'],
+            'city'=>['string'],
+            'street'=>['string'],
+            'picture'=>['image'] 
         ];
     }
 }

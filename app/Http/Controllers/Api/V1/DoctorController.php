@@ -12,6 +12,7 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class DoctorController extends Controller
 {
@@ -86,7 +87,35 @@ class DoctorController extends Controller
      */
     public function update(UpdateDoctorRequest $request, Doctor $doctor)
     {
-        //
+        $update=false;
+        $data=$request->validated();
+        if(Hash::check($data['password'],$doctor->password)){
+            if ($request->hasFile('picture')) {
+                $data['picture']=$request->file('picture')->store(options:'public');
+            }    
+            $doctor->fill($data)->save();
+            $update=true;
+        }
+        return response()->json([
+            'doctor' => new DoctorResource($doctor),
+            'update'=>$update
+        ], 201);
+    }
+    public function updatePassword(Request $request, Doctor $doctor){
+        $data = $request->validate([
+            'old_password'=>['required'],
+            'password'=>['required','confirmed',Password::min(6)->numbers()]
+        ]);
+        if(Hash::check($data['old_password'],$doctor->password)){
+            $doctor->update(['password'=>$data['password']]);
+            return response()->json([
+                'doctor'=>new DoctorResource($doctor),
+                'update'=>true
+            ]);    
+        }
+        return response()->json([
+            'update'=>false
+        ]);
     }
 
     /**
