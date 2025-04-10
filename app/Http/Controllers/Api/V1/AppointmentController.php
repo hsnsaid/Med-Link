@@ -25,8 +25,14 @@ class AppointmentController extends Controller
     public function store(StoreAppointmentRequest $request)
     {
         $data=$request->validated();
-        $appointment=Appointment::create($data);
-        $response=['appointment'=>new AppointmentResource($appointment)];
+        foreach($data['time'] as $time){
+            $appointment[]=Appointment::create([
+                'doctor_id'=>$data['doctor_id'],
+                'date'=>$data['date'],
+                'time'=>$time
+            ]);
+        }
+        $response=['appointment'=>new AppointmentCollection($appointment)];
         return Response($response,201);
     }
 
