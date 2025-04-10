@@ -20,7 +20,7 @@ class AppointmentFactory extends Factory
     {
         return [
             'doctor_id'=>Doctor::factory(),
-            'user_id'=>User::factory(),
+            'user_id'=>NUll,
             'date'=>fake()->date(),
             'time'=>fake()->time(),
         ];

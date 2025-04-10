@@ -20,19 +20,14 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreAppointmentRequest $request)
     {
-        //
+        $data=$request->validated();
+        $appointment=Appointment::create($data);
+        $response=['appointment'=>new AppointmentResource($appointment)];
+        return Response($response,201);
     }
 
     /**
