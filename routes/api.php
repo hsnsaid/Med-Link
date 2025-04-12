@@ -23,4 +23,6 @@ Route::group(['prefix'=>'v1'],function(){
     Route::middleware('auth:sanctum')->post('/users/logout', [UserController::class, 'logout']);
 
     Route::apiResource('appointments',AppointmentController::class);
+    Route::get('appointments/doctor/{id}',[AppointmentController::class,'showDoctorAppointment']);
+    Route::get('appointments/doctor/Scheduled/{id}',[AppointmentController::class,'showScheduledAppointment']);
 });

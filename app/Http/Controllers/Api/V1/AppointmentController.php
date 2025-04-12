@@ -43,7 +43,20 @@ class AppointmentController extends Controller
     {
         return new AppointmentResource($appointment);
     }
-
+    public function showDoctorAppointment(int $id)
+    {
+        $appointment=Appointment::where('doctor_id',$id)
+                                ->whereNotNull('user_id')
+                                ->get();
+        return new AppointmentCollection($appointment);
+    }
+    public function showScheduledAppointment(int $id)
+    {
+        $appointment=Appointment::where('doctor_id',$id)
+                                ->whereNull('user_id')
+                                ->get();
+        return new AppointmentCollection($appointment);
+    }
     /**
      * Show the form for editing the specified resource.
      */
