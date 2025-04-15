@@ -25,4 +25,5 @@ Route::group(['prefix'=>'v1'],function(){
     Route::apiResource('appointments',AppointmentController::class);
     Route::get('appointments/doctor/{id}',[AppointmentController::class,'showDoctorAppointment']);
     Route::get('appointments/doctor/Scheduled/{id}',[AppointmentController::class,'showScheduledAppointment']);
+    Route::middleware('auth:sanctum')->patch('appointments/scheduled/{appointment}',[AppointmentController::class,'scheduledAppointment']);
 });

@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAppointmentRequest extends FormRequest
+class ScheduleAppointmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->tokenCan('appointment') ?? false;
     }
 
     /**
@@ -23,8 +23,6 @@ class UpdateAppointmentRequest extends FormRequest
     {
         return [
             "user_id"=>["numeric","exists:users,id"],
-            "date"=>[''],
-            "time"=>['']
         ];
     }
     protected function prepareForValidation()

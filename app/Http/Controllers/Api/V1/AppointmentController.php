@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ScheduleAppointmentRequest;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Http\Resources\V1\AppointmentCollection;
 use App\Http\Resources\V1\AppointmentResource;
 use App\Models\Appointment;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -70,9 +73,25 @@ class AppointmentController extends Controller
      */
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
-        //
+        $data=$request->validated();
+        $appointment->fill($data)->save();
+        $response=[
+            "appointment"=>new AppointmentResource($appointment),
+            "update"=>true
+        ];
+        return response($response,200);
     }
-
+    public function scheduledAppointment(ScheduleAppointmentRequest $request, Appointment $appointment)
+    {
+        $data=$request->validated();
+        $appointment->update(["user_id"=>$data['user_id']]);
+        $response=[
+            "appointment"=>new AppointmentResource($appointment),
+            "update"=>true
+        ];
+        return response($response,200);
+    }
+    
     /**
      * Remove the specified resource from storage.
      */

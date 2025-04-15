@@ -55,7 +55,7 @@ class UserController extends Controller
             ], 401);
         }    
         $user = Auth::user();
-        $token = $user->createToken('user')->plainTextToken;
+        $token = $user->createToken('user',['appointment'])->plainTextToken;
     
         return response()->json([
             'user' => new UserResource($user),
