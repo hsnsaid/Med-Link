@@ -26,4 +26,5 @@ Route::group(['prefix'=>'v1'],function(){
     Route::get('appointments/doctor/{id}',[AppointmentController::class,'showDoctorAppointment']);
     Route::get('appointments/doctor/Scheduled/{id}',[AppointmentController::class,'showScheduledAppointment']);
     Route::middleware('auth:sanctum')->patch('appointments/scheduled/{appointment}',[AppointmentController::class,'scheduledAppointment']);
+    Route::middleware('auth:sanctum')->get('appointments/scheduled/doctor',[AppointmentController::class,'scheduledUser']);
 });

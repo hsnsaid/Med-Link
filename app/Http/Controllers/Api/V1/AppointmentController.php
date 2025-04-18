@@ -91,8 +91,20 @@ class AppointmentController extends Controller
         ];
         return response($response,200);
     }
-    
-    /**
+    public function scheduledUser(Request $request)
+    {
+        $doctor = $request->user();
+        $appointments = Appointment::with('user')
+            ->where('doctor_id', $doctor->id)
+            ->whereNotNull('user_id')
+            ->groupBy('date')
+            ->get();
+        $result=[
+                    'appointments' => $appointments->values()
+                ];
+        return response()->json($result, 200);
+    }
+        /**
      * Remove the specified resource from storage.
      */
     public function destroy(Appointment $appointment)
