@@ -34,6 +34,10 @@ class UserController extends Controller
             'email'=>$request['email'],
             'password'=>Hash::make($request['password']),
             'phone_number'=>$request['phoneNumber'],
+            "age"=> $request['age'],
+            "sexe"=>$request['sexe'],
+            "chronic_disease"=>$request['chronic_disease'],
+            "groupage"=>$request['groupage'],
         ]);
         $user->tokens()->delete();
         $token=$user->createToken('user')->plainTextToken;
