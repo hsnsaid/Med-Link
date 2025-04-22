@@ -36,7 +36,7 @@ class UserController extends Controller
             'phone_number'=>$request['phoneNumber'],
             "age"=> $request['age'],
             "sexe"=>$request['sexe'],
-            "chronic_disease"=>$request['chronic_disease'],
+            "chronic_disease"=>$request['chronicDisease'],
             "groupage"=>$request['groupage'],
         ]);
         $user->tokens()->delete();
