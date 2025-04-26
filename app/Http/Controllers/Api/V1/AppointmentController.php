@@ -104,6 +104,19 @@ class AppointmentController extends Controller
                 ];
         return response()->json($result, 200);
     }
+    public function userAppointment(User $user)
+    {
+        $appointments = Appointment::with(['doctor'=>function($query){
+            $query->select(['id','name','email','phone_number','speciality','city','street']);
+        }])
+            ->where('user_id', $user->id)
+            ->groupBy('date')
+            ->get();
+        $result=[
+                    'appointments' => $appointments->values()
+                ];
+        return response()->json($result, 200);
+    }
         /**
      * Remove the specified resource from storage.
      */
