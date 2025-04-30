@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string("age");
             $table->enum("sexe",['female','male']);
             $table->string("chronic_disease");
-            $table->string("groupage");            
+            $table->string("groupage");
+            $table->integer("balance")->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

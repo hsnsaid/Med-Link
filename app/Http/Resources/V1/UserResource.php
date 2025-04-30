@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             "sexe"=>$this->sexe,
             "chronicDisease"=>$this->chronic_disease,
             "groupage"=>$this->groupage,
+            "balance"=>$this->balance
         ];
     }
 }

@@ -20,6 +20,8 @@ Route::group(['prefix'=>'v1'],function(){
     Route::apiResource('users',UserController::class);
     Route::patch('users/update/password/{user}',[UserController::class,'updatePassword']);
     Route::middleware('auth:sanctum')->post('users/profile',[UserController::class,'showAuthenticatedUser']);
+    Route::middleware('auth:sanctum')->patch('/users/update/balance', [UserController::class, 'updateBalance']);
+    Route::middleware('auth:sanctum')->patch('/users/balance/chat', [UserController::class, 'balanceToChat']);
     Route::middleware('auth:sanctum')->post('/users/logout', [UserController::class, 'logout']);
 
     Route::apiResource('appointments',AppointmentController::class);

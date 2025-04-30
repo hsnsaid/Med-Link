@@ -108,10 +108,39 @@ class UserController extends Controller
             'update'=>$update
         ]);
     }
-
+    public function updateBalance(Request $request){
+        $user=$request->user();
+        $validated=$request->validate([
+            'CardNumber'=>['required',"min:10"],
+            'ExpiryDate'=>['required'],
+            'CVC'=>['required'],
+            'package'=>['required','in:1,2,3,4'],
+            'password'=>['required']
+        ]);
+        $packageAmounts=['1'=>100,'2'=>500,'3'=>1000,'4'=>2000];
+        if(! Hash::check($validated['password'],$user->password)){
+            return response()->json(['message' => 'Unauthorized to update the balance.'], 403);
+        }
+        $amountToAdd = $packageAmounts[$validated['package']];
+        $user->balance+=$amountToAdd;
+        $user->save();
+        return response()->json(['message' => 'Balance updated successfully.', 'new_balance' => $user->balance], 200);       
+    }
     /**
      * Remove the specified resource from storage.
      */
+    public function balanceToChat(Request $request){
+        $user=$request->user();
+        $validated=$request->validate([
+            'amount'=>['required','numeric'],
+        ]);
+        if($user->balance<$validated['amount']){
+            return response()->json(['message' => "you don't have enough balance to do this action ."], 403);
+        }
+        $user->balance-=$validated['amount'];
+        $user->save();       
+        return response()->json(['message' => 'Welcom to chat , Balance updated successfully.', 'new_balance' => $user->balance], 200);       
+    }
     public function destroy(User $user)
     {
     }
