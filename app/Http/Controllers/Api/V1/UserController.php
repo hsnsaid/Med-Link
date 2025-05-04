@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\V1\UserCollection;
 use App\Http\Resources\V1\UserResource;
+use App\Models\ChatSession;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -139,7 +140,12 @@ class UserController extends Controller
         }
         $user->balance-=$validated['amount'];
         $user->save();       
-        return response()->json(['message' => 'Welcom to chat , Balance updated successfully.', 'new_balance' => $user->balance], 200);       
+        $doctor_id=$request['doctorID'];
+        $chatSession=ChatSession::create([
+            'user_id'=>$user->id,
+            'doctor_id'=>$doctor_id,
+            'start_at'=>now(),
+        ]);
     }
     public function destroy(User $user)
     {
