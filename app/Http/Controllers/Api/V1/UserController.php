@@ -146,6 +146,7 @@ class UserController extends Controller
             'doctor_id'=>$doctor_id,
             'start_at'=>now(),
         ]);
+        return response()->json(['message' => "Welcom to the chat",'session'=>$chatSession], 200);
     }
     public function destroy(User $user)
     {

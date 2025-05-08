@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AppointmentController;
+use App\Http\Controllers\Api\V1\ChatController;
 use App\Http\Controllers\Api\V1\DoctorController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
@@ -30,4 +31,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::middleware('auth:sanctum')->patch('appointments/scheduled/{appointment}',[AppointmentController::class,'scheduledAppointment']);
     Route::middleware('auth:sanctum')->get('appointments/scheduled/doctor',[AppointmentController::class,'scheduledUser']);
     Route::get('appointments/user/{user}',[AppointmentController::class,'userAppointment']);
+
+    Route::apiResource('chatMessage',ChatController::class);
+    Route::middleware('auth:sanctum')->post('/chatMessage/send/', [ChatController::class, 'sendMessage']);
 });
