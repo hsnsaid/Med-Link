@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('rating',2,1)->default(0);
             $table->string('picture')->nullable();
             $table->string('approved')->default("wait");
+            $table->string('status')->default('offline');
             $table->timestamps();
         });
     }

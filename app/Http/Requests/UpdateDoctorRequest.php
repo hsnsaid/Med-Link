@@ -24,14 +24,15 @@ class UpdateDoctorRequest extends FormRequest
         return [
             'name'=>['string'],
             'email'=>['email','unique:doctors,email'],
-            'password'=>['required','string'],
+            'password'=>['string'],
             'gender'=>['string'],
             'phone_number'=>['string'],
             'speciality'=>['string'],
             'type_consultation'=>['string'],
             'city'=>['string'],
             'street'=>['string'],
-            'picture'=>['image'] 
+            'picture'=>['image'],
+            'status'=>['string']
         ];
     }
 }

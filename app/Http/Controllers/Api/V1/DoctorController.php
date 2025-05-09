@@ -89,13 +89,19 @@ class DoctorController extends Controller
     {
         $update=false;
         $data=$request->validated();
-        if(Hash::check($data['password'],$doctor->password)){
-            if ($request->hasFile('picture')) {
-                $data['picture']=$request->file('picture')->store(options:'public');
-            }    
+        if($request->hasAny('soft')){
             $doctor->fill($data)->save();
             $update=true;
         }
+        else{
+            if(Hash::check($data['password'],$doctor->password)){
+                if ($request->hasFile('picture')) {
+                    $data['picture']=$request->file('picture')->store(options:'public');
+                }    
+                $doctor->fill($data)->save();
+                $update=true;
+            }
+        }  
         return response()->json([
             'doctor' => new DoctorResource($doctor),
             'update'=>$update

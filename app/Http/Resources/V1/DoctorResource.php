@@ -27,7 +27,8 @@ class DoctorResource extends JsonResource
             'street'=>$this->street,
             'rating'=>$this->rating,
             'approved'=>$this->approved,            
-            'picture'=>$this->picture
+            'picture'=>$this->picture,
+            'status'=>$this->status
         ];
     }
 }
