@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\NewChatMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ChatMessageCollection;
 use App\Http\Resources\V1\ChatMessageResource;
@@ -49,7 +50,8 @@ class ChatController extends Controller
             'sender_type' => get_class($user),
             'message' => $validated['message']
         ]);    
-        return response()->json(['message' => 'Message sent', 'data' => $message], 200);
+        broadcast(new NewChatMessage($message))->toOthers();
+        //return response()->json(['message' => 'Message sent', 'data' => $message], 200);
     }
     /**
      * Update the specified resource in storage.
