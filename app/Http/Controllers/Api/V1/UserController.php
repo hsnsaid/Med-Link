@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\ChatSessionStarted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -134,18 +135,24 @@ class UserController extends Controller
         $user=$request->user();
         $validated=$request->validate([
             'amount'=>['required','numeric'],
+            'doctorID'=>['required','exists:doctors,id']
         ]);
         if($user->balance<$validated['amount']){
             return response()->json(['message' => "you don't have enough balance to do this action ."], 403);
         }
         $user->balance-=$validated['amount'];
         $user->save();       
-        $doctor_id=$request['doctorID'];
         $chatSession=ChatSession::create([
             'user_id'=>$user->id,
-            'doctor_id'=>$doctor_id,
+            'doctor_id'=>$validated['doctorID'],
             'start_at'=>now(),
         ]);
+        $chatSession->messages()->create([
+            'sender_id' => null,
+            'sender_type' => 'System',
+            'message' => "🟡 User {$user->name} has connected and is waiting for consultation...",
+        ]);
+        event(new ChatSessionStarted($chatSession, $user));
         return response()->json(['message' => "Welcom to the chat",'session'=>$chatSession], 200);
     }
     public function destroy(User $user)
