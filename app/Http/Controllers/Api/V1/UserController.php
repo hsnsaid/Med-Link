@@ -147,11 +147,11 @@ class UserController extends Controller
             'doctor_id'=>$validated['doctorID'],
             'start_at'=>now(),
         ]);
-        $chatSession->messages()->create([
-            'sender_id' => null,
-            'sender_type' => 'System',
-            'message' => "🟡 User {$user->name} has connected and is waiting for consultation...",
-        ]);
+        // $chatSession->messages()->create([
+        //     'sender_id' => null,
+        //     'sender_type' => 'System',
+        //     'message' => "🟡 User {$user->name} has connected and is waiting for consultation...",
+        // ]);
         event(new ChatSessionStarted($chatSession, $user));
         return response()->json(['message' => "Welcom to the chat",'session'=>$chatSession], 200);
     }
