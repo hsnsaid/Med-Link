@@ -23,18 +23,17 @@ class AdminController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'string']
         ]);    
-        $admin = Admin::where('email', $fields['email'])->first();    
+        $admin = Admin::where('email', $fields['email'])->first();   
         if (!$admin || !Hash::check($fields['password'], $admin->password)) {
             return response()->json([
                 'message' => 'Invalid credentials'
             ], 401);
         }
-        $token = $admin->createToken('admin')->plainTextToken;    
+         $token = $admin->createToken('admin')->plainTextToken;    
         return response()->json([
             'admin' => $admin,
             'token' => $token
-        ], 201);
-
+        ], 200);
     }
     public function logout(Request $request)
     {
