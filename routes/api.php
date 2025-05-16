@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\AppointmentController;
 use App\Http\Controllers\Api\V1\ChatController;
 use App\Http\Controllers\Api\V1\DoctorController;
@@ -16,6 +17,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::middleware('auth:sanctum')->post('doctors/profile',[DoctorController::class,'showAuthenticatedDoctor']);
     Route::middleware('auth:sanctum')->post('doctors/logout', [DoctorController::class, 'logout']);
     Route::patch('doctors/update/password/{doctor}',[DoctorController::class,'updatePassword']);
+    Route::get('doctors/stats',[DoctorController::class,'stats']);
 
     Route::post('users/login',[UserController::class,'check']);
     Route::apiResource('users',UserController::class);
@@ -34,4 +36,7 @@ Route::group(['prefix'=>'v1'],function(){
 
     Route::apiResource('chatMessage',ChatController::class);
     Route::middleware('auth:sanctum')->post('/chatMessage/send/', [ChatController::class, 'sendMessage']);
+
+    Route::get('admin/stats',[AdminController::class,'stats']);
+    Route::post('admin/login',[AdminController::class,'login']);
 });

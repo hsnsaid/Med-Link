@@ -123,7 +123,7 @@ class DoctorController extends Controller
             'update'=>false
         ]);
     }
-    public function stats(Doctor $doctor)
+    public function stats()
     {
         $online=Doctor::where("status","online")->get()->count();
         $offline=Doctor::where("status","offline")->get()->count();
