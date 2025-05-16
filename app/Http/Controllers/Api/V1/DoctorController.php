@@ -32,6 +32,19 @@ class DoctorController extends Controller
         });    
         return new DoctorCollection($doctors);
     }
+        public function doctors(Request $request)
+    {
+        $filter=new DoctorsFilter();
+        $filterItems=$filter->transform($request);
+        $doctors=Doctor::where($filterItems);
+        $doctors = $doctors->paginate()->appends($request->query());
+        $doctors->getCollection()->transform(function ($doctor) {
+            $doctor->picture = $doctor->picture ? asset("storage/" . $doctor->picture) : null;
+            return $doctor;
+        });    
+        return new DoctorCollection($doctors);
+    }
+
 
     /**
      * Store a newly created resource in storage.
