@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Admin::factory()->create([
             'password' => 'admin',
-            'email' => 'admin@example.com',
+            'email' => 'admin@gmail.com',
         ]);
         $this->call(UserSeeder::class);
         $this->call(DoctorSeeder::class);

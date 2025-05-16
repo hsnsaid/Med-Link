@@ -10,4 +10,10 @@ class Admin extends Model
     /** @use HasFactory<\Database\Factories\AdminFactory> */
     use HasFactory;
     protected $guarded=[];
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
 }
