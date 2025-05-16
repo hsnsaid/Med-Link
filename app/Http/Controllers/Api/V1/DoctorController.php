@@ -123,13 +123,21 @@ class DoctorController extends Controller
             'update'=>false
         ]);
     }
+    public function stats(Doctor $doctor)
+    {
+        $online=Doctor::where("status","online")->get()->count();
+        $offline=Doctor::where("status","offline")->get()->count();
+        $all=Doctor::all()->count();
+        return response(["total doctor is "=>$all,"total Doctor online"=>$online,"total Doctor offline"=>$offline]);
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Doctor $doctor)
     {
-        //
+        $doctor->delete();
+        return response('doctor has been deleted');
     }
     public function logout(Request $request)
     {
