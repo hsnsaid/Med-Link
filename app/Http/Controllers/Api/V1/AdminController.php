@@ -16,7 +16,12 @@ class AdminController extends Controller
         $totalUser=User::all()->count();
         $totalDoctor=Doctor::all()->count();
         $totalAppointment=Appointment::all()->count();
-        return response(["total user is "=>$totalUser,"totalDoctor"=>$totalDoctor,"totalAppointment"=>$totalAppointment]);
+
+        return response()->json([
+            "totalUser"=>$totalUser,
+            "totalDoctor"=>$totalDoctor,
+            "totalAppointment"=>$totalAppointment
+        ],200);
     }
     public function login(Request $request){
         $fields = $request->validate([

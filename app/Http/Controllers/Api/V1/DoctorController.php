@@ -128,7 +128,11 @@ class DoctorController extends Controller
         $online=Doctor::where("status","online")->get()->count();
         $offline=Doctor::where("status","offline")->get()->count();
         $all=Doctor::all()->count();
-        return response(["total doctor is "=>$all,"total Doctor online"=>$online,"total Doctor offline"=>$offline]);
+        return response()->json([
+            "totalDoctor"=>$all,
+            "totalDoctorOnline"=>$online,
+            "totalDoctorOffline"=>$offline
+        ]);
     }
 
     /**
