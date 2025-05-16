@@ -39,4 +39,5 @@ Route::group(['prefix'=>'v1'],function(){
 
     Route::get('admin/stats',[AdminController::class,'stats']);
     Route::post('admin/login',[AdminController::class,'login']);
+    Route::middleware('auth:sanctum')->post('admin/logout', [AdminController::class, 'logout']);
 });
