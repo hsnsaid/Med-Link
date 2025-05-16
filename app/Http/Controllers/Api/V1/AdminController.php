@@ -40,6 +40,26 @@ class AdminController extends Controller
             'token' => $token
         ], 200);
     }
+    public function approve(Request $request){
+        $request->validate([
+            'DoctorId'=>['required','exists:doctors,id']
+        ]);
+        $doctor=Doctor::where('id',$request['DoctorId'])->first();
+        if($doctor->approved==false){
+            $doctor->approved=True;
+            $doctor->save();
+            return response()->json([
+                'update' => true,
+                'doctor'=>$doctor
+            ]);
+        }else{
+            return response()->json([
+                'update' => false,
+                'doctor'=>$doctor,
+                "message"=>'doctor already is approved'
+            ]);
+        }
+    }
     public function logout(Request $request)
     {
         $admin = $request->user(); 

@@ -23,6 +23,7 @@ class DoctorController extends Controller
     {
         $filter=new DoctorsFilter();
         $filterItems=$filter->transform($request);
+        $filterItems+=["approved"=>true];
         $doctors=Doctor::where($filterItems);
         $doctors = $doctors->paginate()->appends($request->query());
         $doctors->getCollection()->transform(function ($doctor) {

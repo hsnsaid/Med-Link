@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('street');
             $table->decimal('rating',2,1)->default(0);
             $table->string('picture')->nullable();
-            $table->string('approved')->default("wait");
+            $table->boolean('approved')->default(false);
             $table->string('status')->default('offline');
             $table->timestamps();
         });
