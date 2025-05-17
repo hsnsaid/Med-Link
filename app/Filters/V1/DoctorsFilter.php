@@ -13,7 +13,8 @@ class DoctorsFilter extends ApiFilter{
         'city'=>['eq'],
         'street'=>['eq'],
         'rating'=>['eq','gt','lt'],
-        'status'=>['eq']
+        'status'=>['eq'],
+        'approved'=>['eq']
     ];
     protected $columnMap=[
         'typeConsultation'=>'type_consultation'

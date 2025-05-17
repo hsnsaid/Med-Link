@@ -41,6 +41,6 @@ Route::group(['prefix'=>'v1'],function(){
     Route::post('admin/login',[AdminController::class,'login']);
     Route::middleware('auth:sanctum')->post('admin/logout', [AdminController::class, 'logout']);
     Route::post('admin/approve',[AdminController::class,'approve']);
-    Route::post('admin/doctors',[DoctorController::class,'doctors']);
+    Route::get('admin/doctors',[DoctorController::class,'doctors']);
     
 });
