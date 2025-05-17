@@ -43,7 +43,7 @@ class NewChatMessage implements ShouldBroadcast
     }
     public function broadcastAs()
     {
-      return 'my-event';
+      return 'message';
     }
 
 }

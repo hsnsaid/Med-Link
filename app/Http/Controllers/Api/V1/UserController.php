@@ -54,15 +54,14 @@ class UserController extends Controller
             'email'=>['required','email'],
             'password'=>['required','string'],
         ]);
-        if (!Auth::attempt(['email' => $fields['email'], 'password' => $fields['password']])) {
+        $user=User::where('email',$fields['email'])->first();
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid credentials'
             ], 401);
         }    
-        $user = Auth::user();
-        $token = $user->createToken('user',['appointment'])->plainTextToken;
-    
+        $token = $user->createToken('user',['appointment'])->plainTextToken;    
         return response()->json([
             'user' => new UserResource($user),
             'token' => $token
@@ -157,6 +156,8 @@ class UserController extends Controller
     }
     public function destroy(User $user)
     {
+        $user->delete();
+        return response("user has been deleted");
     }
     public function logout(Request $request)
     {
