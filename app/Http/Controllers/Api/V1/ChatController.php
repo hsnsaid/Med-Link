@@ -51,7 +51,7 @@ class ChatController extends Controller
             'message' => $validated['message']
         ]);    
         broadcast(new NewChatMessage($message))->toOthers();
-        //return response()->json(['message' => 'Message sent', 'data' => $message], 200);
+        return response()->json(['message' => 'Message sent', 'data' => $message], 200);
     }
     /**
      * Update the specified resource in storage.

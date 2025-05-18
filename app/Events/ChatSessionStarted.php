@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Models\ChatSession;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -16,7 +18,7 @@ class ChatSessionStarted implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct($user,$session)
+    public function __construct(User $user, ChatSession $session)
     {
         $this->user=$user;
         $this->session=$session;
