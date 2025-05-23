@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\AppointmentController;
 use App\Http\Controllers\Api\V1\ChatController;
+use App\Http\Controllers\Api\V1\ChatSessionController;
 use App\Http\Controllers\Api\V1\DoctorController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
@@ -36,6 +37,8 @@ Route::group(['prefix'=>'v1'],function(){
 
     Route::apiResource('chatMessage',ChatController::class);
     Route::middleware('auth:sanctum')->post('/chatMessage/send/', [ChatController::class, 'sendMessage']);
+    Route::middleware('auth:sanctum')->post('/chatSession/end/{session}', [ChatSessionController::class, 'end']);
+    Route::middleware('auth:sanctum')->post('/chatSession/review/{session}', [ChatSessionController::class, 'review']);
 
     Route::get('admin/stats',[AdminController::class,'stats']);
     Route::post('admin/login',[AdminController::class,'login']);

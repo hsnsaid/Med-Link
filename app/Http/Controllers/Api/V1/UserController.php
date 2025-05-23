@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\V1\UserCollection;
 use App\Http\Resources\V1\UserResource;
 use App\Models\ChatSession;
+use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -146,6 +147,9 @@ class UserController extends Controller
             'doctor_id'=>$validated['doctorID'],
             'start_at'=>now(),
         ]);
+        $doctor=Doctor::where("id",$validated['doctorID'])->first();
+        $doctor->status="active";
+        $doctor->save();
         event(new ChatSessionStarted($user,$chatSession));
         return response()->json(['message' => "Welcom to the chat",'session'=>$chatSession], 200);
     }
