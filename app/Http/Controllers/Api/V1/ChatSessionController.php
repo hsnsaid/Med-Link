@@ -32,6 +32,17 @@ class ChatSessionController extends Controller
     {
         //
     }
+    public function showSaveDoctor(Request $request)
+    {
+        $user = $request->user();
+        $sessions = ChatSession::with('doctor')
+            ->where('user_id', $user->id)
+            ->get();
+        $result=[
+                    'session' => $sessions->values()
+                ];
+        return response()->json($result, 200);
+    }
 
     /**
      * Update the specified resource in storage.

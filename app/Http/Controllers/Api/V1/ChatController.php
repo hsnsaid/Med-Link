@@ -19,6 +19,21 @@ class ChatController extends Controller
     {
         return new ChatMessageCollection(ChatMessage::all());
     }
+    public function showChat(Request $request,ChatSession $session){
+        $chats=ChatMessage::where('chat_session_id',$session->id)
+                         ->get();
+        $user=$request->user();
+        foreach($chats as $chat){
+            if($chat->sender_type=='App\\Models\\User'){
+                $chat->sender_type='user';
+                $chat->name=$user->name;
+            }else{
+                $chat->sender_type='doctor';
+                $chat->name=$session->doctor->name;
+            }
+        }
+        return response()->json($chats, 200);
+    }
 
     /**
      * Store a newly created resource in storage.

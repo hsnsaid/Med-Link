@@ -39,6 +39,8 @@ Route::group(['prefix'=>'v1'],function(){
     Route::middleware('auth:sanctum')->post('/chatMessage/send/', [ChatController::class, 'sendMessage']);
     Route::middleware('auth:sanctum')->post('/chatSession/end/{session}', [ChatSessionController::class, 'end']);
     Route::middleware('auth:sanctum')->post('/chatSession/review/{session}', [ChatSessionController::class, 'review']);
+    Route::middleware('auth:sanctum')->get('/chat/showDoctor', [ChatSessionController::class, 'showSaveDoctor']);
+    Route::middleware('auth:sanctum')->get('/chat/showChat/{session}', [ChatController::class, 'showChat']);
 
     Route::get('admin/stats',[AdminController::class,'stats']);
     Route::post('admin/login',[AdminController::class,'login']);
