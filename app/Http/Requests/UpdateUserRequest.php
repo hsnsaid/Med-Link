@@ -27,10 +27,14 @@ class UpdateUserRequest extends FormRequest
             'email'=>['email','unique:users,email'],
             'password'=>['required','string',Password::min(6)->numbers()],
             'phone_number'=>['string'],
+            "sexe"=>['string'],
+            "chronic_disease"=>['string'],
+            "groupage"=>['string']
         ];
     }
     protected function prepareForValidation()
     {
         $this->merge(['phone_number'=>$this->phoneNumber]);
+        $this->merge(['chronicDisease'=>$this->chronic_disease]);
     }
 }

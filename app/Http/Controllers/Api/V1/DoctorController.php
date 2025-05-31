@@ -8,7 +8,10 @@ use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\V1\DoctorCollection;
 use App\Http\Resources\V1\DoctorResource;
+use App\Http\Resources\V1\UserCollection;
+use App\Models\ChatSession;
 use App\Models\Doctor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -136,6 +139,17 @@ class DoctorController extends Controller
         return response()->json([
             'update'=>false
         ]);
+    }
+    public function client(Request $request){
+        $doctor=$request->user();
+        $user=User::whereHas('chatSessions', function ($query) use ($doctor) {
+            $query->where('doctor_id', $doctor->id);
+        })->get();
+
+        $result=[
+                    'users' => new UserCollection($user)
+                ];
+        return response()->json($result, 200);
     }
     public function stats()
     {

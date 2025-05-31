@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('gender')->enum('male','female');
             $table->string('phone_number');
-            $table->string('speciality')->enum('genralist','dentist','Cardiologist','Neurologist','Orthopedic','Dermatologist','Gynecologist');
+            $table->string('speciality')->enum('genralist','dentist','Cardiologist','Neurologist','Orthopedic','Dermatologist','Gynecologist','Urologist','Psychiatrist','Ophthalmologist');
             $table->string('type_consultation')->enum('none','text','video','all');
             $table->string('city');
             $table->string('street');
