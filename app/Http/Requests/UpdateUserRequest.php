@@ -29,12 +29,13 @@ class UpdateUserRequest extends FormRequest
             'phone_number'=>['string'],
             "sexe"=>['string'],
             "chronic_disease"=>['string'],
-            "groupage"=>['string']
+            "groupage"=>['string'],
+            "age"=>['string']
         ];
     }
     protected function prepareForValidation()
     {
         $this->merge(['phone_number'=>$this->phoneNumber]);
-        $this->merge(['chronicDisease'=>$this->chronic_disease]);
+        $this->merge(['chronic_disease'=>$this->chronicDisease]);
     }
 }
