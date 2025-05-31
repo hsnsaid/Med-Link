@@ -162,6 +162,20 @@ class DoctorController extends Controller
             "totalDoctorOffline"=>$offline
         ]);
     }
+        public function myStats(Request $request)
+    {
+        $doctor=$request->user();
+        $totalPatients=User::whereHas('chatSessions', function ($query) use ($doctor) {
+            $query->where('doctor_id', $doctor->id);
+        })->count();
+        $Consultations=ChatSession::where('doctor_id', $doctor->id)->count();
+
+        return response()->json([
+            "totalPatients"=>$totalPatients,
+            "Rating"=>$doctor->rating,
+            "Consultations"=>$Consultations
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.

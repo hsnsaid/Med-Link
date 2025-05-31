@@ -20,6 +20,7 @@ Route::group(['prefix'=>'v1'],function(){
     Route::patch('doctors/update/password/{doctor}',[DoctorController::class,'updatePassword']);
     Route::get('doctor/stats',[DoctorController::class,'stats']);
     Route::middleware('auth:sanctum')->get('doctor/client', [DoctorController::class, 'client']);
+    Route::middleware('auth:sanctum')->get('doctor/myStats', [DoctorController::class, 'myStats']);
 
     Route::post('users/login',[UserController::class,'check']);
     Route::apiResource('users',UserController::class);
