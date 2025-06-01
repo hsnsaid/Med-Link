@@ -18,13 +18,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('gender')->enum('male','female');
             $table->string('phone_number');
-            $table->string('speciality')->enum('General','Dentistry','Cardiologist','Neurologist','ENT','Dermatologist','Orthopedic','Gynecologist','Pediatrician','Ophthalmologist','Psychiatrist','Urologist');
-            $table->string('type_consultation')->enum('none','text','video','all');
-            $table->string('city');
+            $table->string('speciality')->enum('Genralist','Dentistry','Cardiologist','Neurologist','ENT','Dermatologist','Orthopedic','Gynecologist','Pediatrician','Ophthalmologist','Psychiatrist','Urologist');            $table->string('city');
             $table->string('street');
             $table->decimal('rating',2,1)->default(0);
             $table->string('picture')->nullable();
-            $table->string('balance');
+            $table->decimal('balance',2,1)->default(0);
             $table->boolean('approved')->default(false);
             $table->string('status')->default('offline');
             $table->timestamps();
