@@ -28,6 +28,7 @@ class DoctorResource extends JsonResource
             'rating'=>$this->rating,
             'approved'=>$this->approved,            
             'picture'=>$this->picture,
+            'balance'=>$this->balance,
             'status'=>$this->status
         ];
     }

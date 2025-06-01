@@ -40,6 +40,14 @@ class AdminController extends Controller
             'token' => $token
         ], 200);
     }
+    public function circle()
+    {
+        $counts = Doctor::all()->groupBy('speciality')->map(function ($group) {
+            return $group->count();
+        });
+        return response()->json($counts);
+    }
+
     public function approve(Request $request){
         $request->validate([
             'DoctorId'=>['required','exists:doctors,id']

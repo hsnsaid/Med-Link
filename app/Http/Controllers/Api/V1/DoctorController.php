@@ -156,10 +156,13 @@ class DoctorController extends Controller
         $online=Doctor::where("status","online")->get()->count();
         $offline=Doctor::where("status","offline")->get()->count();
         $all=Doctor::all()->count();
+        $approved=Doctor::where("approved",true)->get()->count();
         return response()->json([
             "totalDoctor"=>$all,
             "totalDoctorOnline"=>$online,
-            "totalDoctorOffline"=>$offline
+            "totalDoctorOffline"=>$offline,
+            "approved"=>$approved,
+            "notApproved"=>$all-$approved
         ]);
     }
         public function myStats(Request $request)
@@ -173,7 +176,8 @@ class DoctorController extends Controller
         return response()->json([
             "totalPatients"=>$totalPatients,
             "Rating"=>$doctor->rating,
-            "Consultations"=>$Consultations
+            "Consultations"=>$Consultations,
+            "balance"=>$doctor->balance ."$" 
         ]);
     }
 
