@@ -47,7 +47,18 @@ class AdminController extends Controller
         });
         return response()->json($counts);
     }
-
+    public function diagram(){
+        $kids=User::where('age','<',12)->count();
+        $teen=User::whereBetween('age',[13, 21])->count();
+        $adult=User::whereBetween('age',[22, 49])->count();
+        $olders=User::whereBetween('age',[50, 99])->count();
+        return response()->json([
+            'kids' => $kids,
+            'teen'=>$teen,
+            'adult'=>$adult,
+            'olders'=>$olders
+        ]);
+    }
     public function approve(Request $request){
         $request->validate([
             'DoctorId'=>['required','exists:doctors,id']

@@ -50,6 +50,5 @@ Route::group(['prefix'=>'v1'],function(){
     Route::post('admin/approve',[AdminController::class,'approve']);
     Route::get('admin/doctors',[DoctorController::class,'doctors']);
     Route::get('admin/circle',[AdminController::class,'circle']);
-    
-    
+    Route::get('admin/diagram',[AdminController::class,'diagram']);
 });

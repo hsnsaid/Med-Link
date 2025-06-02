@@ -22,7 +22,7 @@ class DoctorFactory extends Factory
             'email'=>fake()->email(),
             'password'=>fake()->password(),
             'phone_number'=>fake()->phoneNumber(),
-            'speciality'=>fake()->randomElement(['genralist','dentist','Cardiologist','Neurologist','Orthopedic','Dermatologist','Gynecologist']),
+            'speciality'=>fake()->randomElement(['Genralist','Dentistry','Cardiologist','Neurologist','ENT','Dermatologist','Orthopedic','Gynecologist','Pediatrician','Ophthalmologist','Psychiatrist','Urologist']),
             'type_consultation'=>fake()->randomElement(['none','text','video','all']),
             'city'=>fake()->city(),
             'street'=>fake()->realText(11),

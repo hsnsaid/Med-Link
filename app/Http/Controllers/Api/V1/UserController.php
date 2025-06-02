@@ -149,7 +149,7 @@ class UserController extends Controller
         ]);
         $doctor=Doctor::where("id",$validated['doctorID'])->first();
         $doctor->status="active";
-        $doctor->balance+=$validated['amount'] /2;
+        $doctor->balance+=(($validated['amount'] /2 )/25);
         $doctor->save();
         event(new ChatSessionStarted($user,$chatSession));
         return response()->json(['message' => "Welcom to the chat",'session'=>$chatSession], 200);
