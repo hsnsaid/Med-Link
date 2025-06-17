@@ -121,7 +121,7 @@ class UserController extends Controller
             'password'=>['required']
         ]);
         $packageAmounts=['1'=>100,'2'=>500,'3'=>1000,'4'=>2000];
-        $priceAmounts=['1'=>9,'2'=>44,'3'=>84,'4'=>159];
+        $priceAmounts=['1'=>2.99,'2'=>10.99,'3'=>19.99,'4'=>43.99];
         if(! Hash::check($validated['password'],$user->password)){
             return response()->json(['message' => 'Unauthorized to update the balance.'], 403);
         }

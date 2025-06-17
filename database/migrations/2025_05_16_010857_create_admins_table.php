@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('password');
             $table->string('email');
-            $table->integer('amount')->default(0);
+            $table->double('amount')->default(0);
             $table->timestamps();
         });
     }
