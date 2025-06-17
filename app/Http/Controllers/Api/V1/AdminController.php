@@ -16,11 +16,12 @@ class AdminController extends Controller
         $totalUser=User::all()->count();
         $totalDoctor=Doctor::all()->count();
         $totalAppointment=Appointment::all()->count();
-
+        $amount =Admin::first()->amount;
         return response()->json([
             "totalUser"=>$totalUser,
             "totalDoctor"=>$totalDoctor,
-            "totalAppointment"=>$totalAppointment
+            "totalAppointment"=>$totalAppointment,
+            "amount"=>$amount
         ],200);
     }
     public function login(Request $request){

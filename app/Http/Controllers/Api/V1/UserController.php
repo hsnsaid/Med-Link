@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\V1\UserCollection;
 use App\Http\Resources\V1\UserResource;
+use App\Models\Admin;
 use App\Models\ChatSession;
 use App\Models\Doctor;
 use App\Models\User;
@@ -120,12 +121,16 @@ class UserController extends Controller
             'password'=>['required']
         ]);
         $packageAmounts=['1'=>100,'2'=>500,'3'=>1000,'4'=>2000];
+        $priceAmounts=['1'=>9,'2'=>44,'3'=>84,'4'=>159];
         if(! Hash::check($validated['password'],$user->password)){
             return response()->json(['message' => 'Unauthorized to update the balance.'], 403);
         }
         $amountToAdd = $packageAmounts[$validated['package']];
         $user->balance+=$amountToAdd;
         $user->save();
+        $admin=Admin::first();
+        $admin->amount+=$priceAmounts[$validated['package']];
+        $admin->save();
         return response()->json(['message' => 'Balance updated successfully.', 'new_balance' => $user->balance], 200);       
     }
     /**
